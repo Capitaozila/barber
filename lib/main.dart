@@ -29,6 +29,7 @@ class BarberShopPage extends StatefulWidget {
 class _BarberShopPageState extends State<BarberShopPage> {
   static const int maxCadeirasEspera = 1;
 
+  // Variáveis de controle do estado da barbearia
   int numClientesEspera = 0;
   bool barbeiroDormindo = true;
   bool cortandoCabelo = false;
@@ -36,19 +37,22 @@ class _BarberShopPageState extends State<BarberShopPage> {
 
   final logger = Logger();
 
+  // Função para adicionar um cliente à barbearia
   void adicionarCliente() {
     if (barbeiroDormindo) {
+      // Se o barbeiro estiver dormindo, acorda-o e atende o cliente atual
       setState(() {
         barbeiroDormindo = false;
         clienteAtual++;
       });
     } else if (numClientesEspera < maxCadeirasEspera) {
+      // Se o barbeiro estiver ocupado, mas ainda há cadeiras disponíveis, adiciona o cliente à fila de espera
       setState(() {
         numClientesEspera++;
         clienteAtual++;
       });
     } else {
-      logger.d('Cliente foi embora porque todas as cadeiras estavam ocupadas.');
+      // Se todas as cadeiras estiverem ocupadas, exibe um diálogo de aviso
       showDialog(
         context: context,
         builder: (context) {
@@ -69,12 +73,15 @@ class _BarberShopPageState extends State<BarberShopPage> {
     }
   }
 
+  // Função para o barbeiro cortar o cabelo de um cliente
   void cortarCabeloBarbeiro() {
     if (clienteAtual > 0 && !cortandoCabelo) {
+      // Verifica se há um cliente esperando e se o barbeiro não está cortando o cabelo atualmente
       setState(() {
         cortandoCabelo = true;
       });
       Future.delayed(const Duration(seconds: 2), () {
+        // Simula o tempo de corte de cabelo (2 segundos)
         setState(() {
           numClientesEspera = numClientesEspera > 0 ? numClientesEspera - 1 : 0;
           clienteAtual--;

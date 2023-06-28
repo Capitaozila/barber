@@ -49,6 +49,23 @@ class _BarberShopPageState extends State<BarberShopPage> {
       });
     } else {
       logger.d('Cliente foi embora porque todas as cadeiras estavam ocupadas.');
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Aviso'),
+            content: const Text('Cliente foi embora porque todas as cadeiras estavam ocupadas.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
